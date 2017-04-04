@@ -1,6 +1,6 @@
 function y = soft_thresh(x,T)
 
-if isvector(T)
+if ~isscalar(T)
     if size(x,1)==size(T,1) || size(x,2)==size(T,2)
         
     else
