@@ -59,7 +59,7 @@ x_bd = x_between(2:end) - x_between(1:end-1);
 
 
 for i =1:Lq
-    c = normpdf(x,xq(i),sigma) .* x_bd;
+    c = normpdf(x,xq(i),sigma(i)) .* x_bd;
     Z = sum(c);
     yq(i,:) = sum(bsxfun(@times,c,y),1) / Z;
 end
