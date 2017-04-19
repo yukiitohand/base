@@ -3,7 +3,7 @@ function [ yq ] = interpGaussConv( x,y,xq,fwhm )
 %   interpolation using Gaussian convolution
 %   Input Parameters
 %       x    : [L x 1], samples for original data
-%       y    : [N x L], data for original samples, N: #of data
+%       y    : [L x N], data for original samples, N: #of data
 %       xq   : [Lq x 1], queried samples.
 %       fwhm : [Lq x 1], full width half maximum of each queried samples
 %   Output Parameters
