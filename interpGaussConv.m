@@ -5,7 +5,7 @@ function [ yq ] = interpGaussConv( x,y,xq,fwhm )
 %       x    : [L x 1], samples for original data
 %       y    : [L x N], data for original samples, N: #of data
 %       xq   : [Lq x 1], queried samples.
-%       fwhm : [Lq x 1], full width half maximum of each queried samples
+%       fwhm : [Lq x 1] or scalar, full width half maximum of each queried samples
 %   Output Parameters
 %       yq   : [Lq x N]
 
@@ -29,10 +29,13 @@ if L~=Ly
 end
 
 Lq = length(xq); Lqfwhm = length(fwhm);
-if Lq~=Lqfwhm
-     error('size of xq and fwhm does not match');
-end   
-
+if Lqfwhm==1
+    fwhm = ones([Lq,1])*fwhm;
+else
+    if Lq~=Lqfwhm
+         error('size of xq and fwhm does not match');
+    end   
+end
 x = x(:); xq = xq(:); fwhm = fwhm(:);
 
 % covert fwhm to sigma
