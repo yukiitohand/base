@@ -50,7 +50,7 @@ yq = zeros([Lq,N]);
 
 
 % compute approximate width of the wvspc
-x_extend = zeros([Lspc+2,1]);
+x_extend = zeros([L+2,1]);
 x_extend(2:end-1) = x;
 x_extend(1) = 2*x(1)-x(2);
 x_extend(end)=2*x(end)-x(end-1);
