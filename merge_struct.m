@@ -1,5 +1,5 @@
-function [ struct_new ] = expand_struct( varargin )
-%[ struct_concatenated ] = expand_struct( varargin )
+function [ struct_new ] = merge_struct( varargin )
+%[ struct_concatenated ] = merge_struct( varargin )
 %   Expand struct having different fields
 %  Usage
 %    [ struct_new ] = expand_struct( struct1,struct2,struct3,... )
