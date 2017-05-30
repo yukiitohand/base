@@ -19,8 +19,8 @@ end
 
 % convert relative path to absolute path
 if ispc
-    error('Not implemented yet');
-    % isrelative = isempty(regexp(p,'^[A-Za-z]{1}:\\.*'));
+%     error('Not implemented yet');
+    isrelative = isempty(regexp(p,'^[A-Za-z]{1}:\\.*'));
 else
     isrelative = isempty(regexp(p,'^/.*'));
 end
