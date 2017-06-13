@@ -1,4 +1,4 @@
-function [ im_showed ] = scx_rgb( varargin )
+function [ im_showed,crange ] = scx_rgb( varargin )
 % complimentary version of the function sc for more customized rgb viewing
 %   Inputs
 %       im: image [M x N x 1] or [M x N x 3]
@@ -10,31 +10,62 @@ function [ im_showed ] = scx_rgb( varargin )
 %       passed to the function sc
 %   Outputs
 %       imshowed: the [0-255] rgb image shown in the figure ready to be saved
-%
+%       crange: color range [1 x 2] or [3 x 2]
+%               each of the row contains [minv, maxv] for the channel
 %   Usage
 %       scx_rgb(im,varargin)
+%       scx_rgb(im,crange,varargin)
 %       scx_rgb(im,method,tol,varargin) % not supported yet
 %       scx_rgb(ax,im,varargin)
+%       scx_rgb(ax,im,crange,varargin)
 %       scx_rgb(ax,im,method,tol,varargin) % not supported yet
 
 method = 'linear';
 tol = 0.02;
 ax_ori = gca;
+crange = [];
 
 if isa(varargin{1},'matlab.graphics.axis.Axes')
     ax = varargin{1};
     axes(ax);
     im = varargin{2};
+    
     if length(varargin)>2
-        varargin = varargin{3:end};
+        if all(size(varargin{3}) == [size(im,3),2])
+            crange = varargin{3};
+            if length(varargin)>3
+                varargin = varargin{4:end};
+            else
+                varargin = {};
+            end
+        else
+            if length(varargin)>2
+                varargin = varargin{3:end};
+            else
+                varargin = {};
+            end
+        end
     else
         varargin = {};
     end
 else
     ax = gca;
     im = varargin{1};
-    if length(varargin)>2
-        varargin = varargin{2:end};
+    if length(varargin)>1
+        if all(size(varargin{2}) == [size(im,3),2])
+            crange = varargin{2};
+            if length(varargin)>2
+                varargin = varargin{3:end};
+            else
+                varargin = {};
+            end
+        else
+            if length(varargin)>1
+                varargin = varargin{2:end};
+            else
+                varargin = {};
+            end
+        end
     else
         varargin = {};
     end
@@ -44,8 +75,8 @@ end
 
 switch method
     case 'linear'
-        im_showed = im_lstretch(im_stretched);
-        sc(im_showed,varargin{:});
+        [im_showed,crange] = im_lstretch(im_stretched,crange);
+        sc(im_showed,varargin{:});            
     otherwise
         error('input method is not supported');
 end
