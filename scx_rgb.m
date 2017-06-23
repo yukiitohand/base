@@ -76,7 +76,11 @@ end
 switch method
     case 'linear'
         [im_showed,crange] = im_lstretch(im_stretched,crange);
-        sc(im_showed,varargin{:});            
+        if length(nargout)>1
+            % sc(im_showed,varargin{:});
+        else
+            sc(im_showed,varargin{:});
+        end
     otherwise
         error('input method is not supported');
 end
