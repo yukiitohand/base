@@ -1,5 +1,5 @@
 function [ vals,outliers ] = robust(func,data,dim,varargin )
-% [ val ] = robust(@func, data,dim,varargin )
+% [ val ] = robust(func, data,dim,varargin )
 %   perform 'func' by removing n_exclu extreme points
 %   possible choice for 'func' is {'mean','var','std'}
 %   Optional parameters

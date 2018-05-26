@@ -41,7 +41,11 @@ function [ im_stretched,crange ] = im_lstretch_base( im,crange )
         maxv = max2d(im);
         crange = [minv maxv];
     else
-        im_stretched = real2rgb( im, gray, crange);
+        if all(isnan(im(:)))
+            im_stretched = zeros([size(im,2),size(im,1),3]);
+        else
+            im_stretched = real2rgb( im, gray, crange);
+        end
     end
 end
 
