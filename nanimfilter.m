@@ -1,5 +1,6 @@
 function [im_fltd] = nanimfilter(im,filt)
-% 
+% [im_fltd] = nanimfilter(im,filt)
+%   filter image considering nans. 
 
 [L,S] = size(im);
 [l_size,s_size] = size(filt);
