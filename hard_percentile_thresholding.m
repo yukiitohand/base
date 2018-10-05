@@ -14,9 +14,12 @@ else
 
     low_idx = ceil(N*tol);
     high_idx = floor(N*(1-tol));
-
-    ar2(I(1:low_idx)) = V(low_idx);
-    ar2(I(high_idx:end)) = V(high_idx);
+    if low_idx>0
+        ar2(I(1:low_idx)) = V(low_idx);
+    end
+    if high_idx<length(ar2)
+        ar2(I(high_idx:end)) = V(high_idx);
+    end
 
     ar_thed = reshape(ar2,size(ar));
 end

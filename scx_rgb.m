@@ -21,7 +21,7 @@ function [ im_showed,crange ] = scx_rgb( varargin )
 %       scx_rgb(ax,im,method,tol,varargin) % not supported yet
 
 method = 'linear';
-tol = 0.02;
+tol = 0.001;
 ax_ori = gca;
 crange = [];
 
