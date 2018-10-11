@@ -5,10 +5,15 @@ function [ vals,outliers ] = robust(func,data,dim,varargin )
 %   Optional parameters
 %   'NOUTLIERS': scalar or vector
 %   'OUTLIERS': boolean matrix, same size as the data
+%   'SIDE'    : {'large', 'small', 'both'}
+%               the side from which outliers are taken
+%               (default) 'both'
+%               currently, 'both' is the only option implemented
 
 Noutliers = 10;
 outliers = [];
 outlier_mode = 0; % 0 indicates the number based, 1 indiates the index based.
+side = 'large'; % {}
 
 %% input check
 if (rem(length(varargin),2)==1)
@@ -27,11 +32,16 @@ else
                     error('Outliers must be the same size as data');
                 end
                 outlier_mode = 1;
+            case 'SIDE'
+                side = varargin{i+1};
+                if ~strcmpi(side,'both')
+                    error('side=%s is not implemented yet',side);
+                end
             otherwise
                 % Hmmm, something wrong with the parameter string
                 error(['Unrecognized option: ''' varargin{i} '''']);
-        end;
-    end;
+        end
+    end
 end
 
 if size(data,3)>1
