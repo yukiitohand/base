@@ -22,7 +22,7 @@ function [ im_showed,crange ] = scx_rgb( varargin )
 
 method = 'linear';
 tol = 0.001;
-ax_ori = gca;
+ax_ori = [];
 crange = [];
 
 if isa(varargin{1},'matlab.graphics.axis.Axes')
@@ -49,7 +49,7 @@ if isa(varargin{1},'matlab.graphics.axis.Axes')
         varargin = {};
     end
 else
-    ax = gca;
+    % ax = gca;
     im = varargin{1};
     if length(varargin)>1
         if all(size(varargin{2}) == [size(im,3),2])
@@ -80,13 +80,14 @@ switch method
             % sc(im_showed,varargin{:});
         else
             sc(im_showed,varargin{:});
+            hdt = datacursormode(gcf);
+            set(hdt,'UpdateFcn',{@map_cursor_Orivalue,im});
         end
     otherwise
         error('input method is not supported');
 end
 
-hdt = datacursormode(gcf);
-set(hdt,'UpdateFcn',{@map_cursor_Orivalue,im});
+
 
 
 % axes(ax_ori);
