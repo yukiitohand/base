@@ -55,15 +55,29 @@ else
         if all(size(varargin{2}) == [size(im,3),2])
             crange = varargin{2};
             if length(varargin)>2
-                varargin = varargin{3:end};
+                if isscalar(varargin{3})
+                    tol = varargin{3};
+                    if length(varargin)>3 
+                        varargin = varargin{4:end};
+                    else
+                        varargin = {};
+                    end
+                else
+                    varargin = varargin{3:end};
+                end
             else
                 varargin = {};
             end
         else
-            if length(varargin)>1
-                varargin = varargin{2:end};
+            if isscalar(varargin{2})
+                tol = varargin{2};
+                if length(varargin) > 3
+                    varargin = varargin{3:end};
+                else
+                    varargin = {};
+                end
             else
-                varargin = {};
+                varargin = varargin{2:end};
             end
         end
     else
