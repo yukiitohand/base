@@ -36,7 +36,7 @@ end
 
 function [ im_stretched,crange ] = im_lstretch_base( im,crange )
     if isempty(crange)
-        im_stretched = real2rgb( im, gray );
+        im_stretched = real2rgb( im, 'gray' );
         minv = min2d(im);
         maxv = max2d(im);
         crange = [minv maxv];
