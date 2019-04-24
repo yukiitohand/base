@@ -70,7 +70,7 @@ for i =1:Lq
     c = normpdf_r(x,xq(i),sigma(i),false);
     Z = nansum(c.*y_notisnan,1);
     valid_idx = Z > retainratio;
-    yq(i,valid_idx) = nansum(bsxfun(@times,c(:,valid_idx),y(:,valid_idx)),1) ./ Z(:,valid_idx);
+    yq(i,valid_idx) = nansum(c.*y(:,valid_idx),1) ./ Z(1,valid_idx);
 end
 
 end
