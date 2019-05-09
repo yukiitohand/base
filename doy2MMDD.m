@@ -14,7 +14,7 @@ if ~isnumeric(doy), doy = str2num(doy); end
 
 dom_cum = cumsum(days_of_months);
 
-MM = find((doy-dom_cum)<0,1);
+MM = find((doy-dom_cum)<=0,1);
 
 if MM>1
     dd = doy - dom_cum(MM-1);
