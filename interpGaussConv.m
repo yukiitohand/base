@@ -1,4 +1,4 @@
-function [ yq ] = interpGaussConv( x,y,xq,fwhm )
+function [ yq ] = interpGaussConv( x,y,xq,fwhm,varargin )
 % [ yq ] = interpGaussian( x,y,xq,fwhm )
 %   interpolation using Gaussian convolution
 %   Input Parameters
@@ -38,10 +38,25 @@ else
 end
 x = x(:); xq = xq(:); fwhm = fwhm(:);
 
+retainratio = 0.9;
+
+if (rem(length(varargin),2)==1)
+    error('Optional parameters should always go by pairs');
+else
+    for i=1:2:(length(varargin)-1)
+        switch upper(varargin{i})
+            case 'RETAINRATIO'
+                retainratio = varargin{i+1};
+            otherwise
+                error('Undefined option:%s.',upper(varargin{i}));
+        end
+    end
+end
+
 % covert fwhm to sigma
 sigma = fwhm2sigma(fwhm);
 
-yq = zeros([Lq,N]);
+yq = nan([Lq,N]);
 % for i =1:Lq
 %     c = normpdf(x,xq(i),sigma);
 %     c_sum = sum(c);
@@ -61,7 +76,8 @@ x_bd = x_between(2:end) - x_between(1:end-1);
 for i =1:Lq
     c = normpdf(x,xq(i),sigma(i)) .* x_bd;
     Z = sum(c);
-    yq(i,:) = sum(bsxfun(@times,c,y),1) / Z;
+    valid_idx = Z > retainratio;
+    yq(i,valid_idx) = nansum(c.*y(:,valid_idx),1) ./ Z(1,valid_idx);
 end
 
 end
