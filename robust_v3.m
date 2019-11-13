@@ -2,7 +2,9 @@ function [ vals,outliers ] = robust_v3(func,data,dim,varargin )
 % [ val ] = robust_v3(func, data,dim,varargin )
 %   perform 'func' by removing n_exclu extreme points. Extreme points are
 %   selected based on median subtraction
-%   possible choice for 'func' is {'mean','var','std','stdl1','med_abs_dev'}
+%   possible choice for 'func' is {'mean','var','std','stdl1',...
+%     'mean_abs_dev_from_mean','mean_abs_dev_from_med','med_abs_dev_from_mean',...
+%     'med_abs_dev_from_med'}
 %   Optional parameters
 %   'NOUTLIERS': scalar or (vector, not implemented yet)
 %   'OUTLIERS': boolean matrix, same size as the data
