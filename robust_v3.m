@@ -16,6 +16,7 @@ function [ vals,outliers ] = robust_v3(func,data,dim,varargin )
 Noutliers_default = 10;
 outliers_default = [];
 side_default = 'large';
+data_center_default = [];
 
 p = inputParser();
 addRequired(p,'func',@(x) any(validatestring(x,{'mean','var','std','stdl1',...
@@ -27,6 +28,7 @@ addParameter(p,'NOutliers',Noutliers_default,@(x) validateattributes(x,{'numeric
     {'nonnegative','integer'},mfilename,'NOutliers'));
 addParameter(p,'Outliers',outliers_default,@(x) validateattributes(x,{'logical','numeric'},mfilename,'Outliers'));
 addParameter(p,'Side',side_default,@(x) validatestring(x,{'large','small','both'},mfilename,'Side'));
+addParameter(p,'Data_Center',data_center_default,@(x) validateattributes(x,{'numeric'},{},mfilename,'Data_Center'));
 
 parse(p,func,data,dim,varargin{:});
 func = p.Results.func;
@@ -35,6 +37,7 @@ dim  = p.Results.dim;
 Noutliers = p.Results.NOutliers;
 outliers = p.Results.Outliers;
 side = p.Results.Side;
+data_center = p.Results.Data_Center;
 
 [L,M,N] = size(data);
 if ~isempty(outliers) 
@@ -49,7 +52,11 @@ end
 
 %%
 if outlier_mode==0
-    [datasub,datamedian] = submedian(data,dim);
+    if isempty(data_center)
+        [datasub,datamedian] = submedian(data,dim);
+    else
+        datasub = data - data_center;
+    end
     [datasubSorted,idatasubSorted] = sort(abs(datasub),dim,'descend',...
                'MissingPlacement','last'); % nan will be ignored.
     outliers = false(size(data));
