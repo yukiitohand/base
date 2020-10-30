@@ -50,36 +50,67 @@ if ~any(dim == [1,2,3])
     error('Dim is invalid');
 end
 
+Nd = ndims(data);
+dim_permute = 1:Nd;
+
+if dim~=1
+    dim_permute(dim) = 1;
+    dim_permute(1) = dim;
+    data = permute(data,dim_permute);
+end
+
+
 %%
 if outlier_mode==0
     if isempty(data_center)
-        [datasub,datamedian] = submedian(data,dim);
+        [datasub,datamedian] = submedian(data,1);
     else
         datasub = data - data_center;
     end
-    [datasubSorted,idatasubSorted] = sort(abs(datasub),dim,'descend',...
-               'MissingPlacement','last'); % nan will be ignored.
-    outliers = false(size(data));
+     % nan will be ignored.
+    %
+    
+    
+    % outliers = false(size(data));
     if length(Noutliers)==1
-        if dim==1
-            for m=1:M
-                for n=1:N
-                    outliers(idatasubSorted(1:Noutliers,m,n),m,n) = true;
-                end
-            end
-        elseif dim==2
-            for l=1:L
-                for n=1:N
-                    outliers(l,idatasubSorted(l,1:Noutliers,n),n) = true;
-                end
-            end
-        elseif dim==3
-            for l=1:L
-                for m=1:M
-                    outliers(l,m,squeeze(idatasubSorted(l,m,1:Noutliers))) = true;
-                end
-            end
+        [datasubSorted,idatasubSorted] = maxk(abs(datasub),Noutliers,1);
+        sz_outlierind = size(idatasubSorted);
+        II = cell(1,Nd);
+        II{1} = idatasubSorted;
+        for i=2:Nd
+            sz_idx = ones(1,Nd);
+            sz_idx(i) = sz_outlierind(i);
+            II{i} = ones(sz_outlierind) .* reshape(1:sz_outlierind(i),sz_idx);
         end
+        outlierind = sub2ind(size(data),II{:});
+        outliers = false(size(data));
+        outliers(outlierind(:)) = true;
+
+        % outliers = (idatasubSorted < (Noutliers+1));
+%         for m=1:M
+%             for n=1:N
+%                 outliers(idatasubSorted(1:Noutliers,m,n),m,n) = true;
+%             end
+%         end
+%         if dim==1
+%             for m=1:M
+%                 for n=1:N
+%                     outliers(idatasubSorted(1:Noutliers,m,n),m,n) = true;
+%                 end
+%             end
+%         elseif dim==2
+%             for l=1:L
+%                 for n=1:N
+%                     outliers(l,idatasubSorted(l,1:Noutliers,n),n) = true;
+%                 end
+%             end
+%         elseif dim==3
+%             for l=1:L
+%                 for m=1:M
+%                     outliers(l,m,squeeze(idatasubSorted(l,m,1:Noutliers))) = true;
+%                 end
+%             end
+%         end
     else
         error('not implemented yet');
     end
@@ -89,25 +120,29 @@ end
 data(outliers) = nan;
 switch lower(func)
     case 'mean'
-        vals = nanmean(data,dim);
+        vals = nanmean(data,1);
     case 'std'
-        vals = nanstd(data,[],dim);
+        vals = nanstd(data,[],1);
     case 'var'
-        vals = nanvar(data,[],dim);
+        vals = nanvar(data,[],1);
     case {'stdl1','mean_abs_dev_from_mean'}
         m = nanmean(data,dim);
-        vals = nanmean(abs(data-m),dim);
+        vals = nanmean(abs(data-m),1);
     case {'mean_abs_dev_from_med'}
-        m = nanmedian(data,dim);
-        vals = nanmean(abs(data-m),dim);
+        m = nanmedian(data,1);
+        vals = nanmean(abs(data-m),1);
     case 'med_abs_dev_from_mean'
-        m = nanmean(data,dim);
-        vals = nanmedian(abs(data-m),dim);
+        m = nanmean(data,1);
+        vals = nanmedian(abs(data-m),1);
     case 'med_abs_dev_from_med'
-        m = nanmedian(data,dim);
-        vals = nanmedian(abs(data-m),dim);
+        m = nanmedian(data,1);
+        vals = nanmedian(abs(data-m),1);
     otherwise
         error('func is invalid');
+end
+
+if dim~=1
+    vals = permute(vals,dim_permute);
 end
 
 end
