@@ -90,7 +90,7 @@ end
 switch method
     case 'linear'
         [im_showed,crange] = im_lstretch(im_stretched,crange);
-        if nargout>1
+        if nargout>0
             % sc(im_showed,varargin{:});
         else
             sc(im_showed,varargin{:});
