@@ -3,7 +3,11 @@ function [struc] = addField(struc,field,value)
 % value for the field becomes cell type.
     if ~isempty(field)
         if isfield(struc,field)
-            struc.(field) = [struc.(field) {value}];
+            if ischar(value)
+                struc.(field) = [struc.(field) {value}];
+            elseif iscell(value)
+                struc.(field) = [struc.(field) value];
+            end
         else
             struc.(field) = value;
         end

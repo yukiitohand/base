@@ -42,9 +42,13 @@ function [ im_stretched,crange ] = im_lstretch_base( im,crange )
         crange = [minv maxv];
     else
         if all(isnan(im(:)))
-            im_stretched = zeros([size(im,2),size(im,1),3]);
+            im_stretched = zeros([size(im,2),size(im,1),3],'uint8');
         else
-            im_stretched = real2rgb( im, 'gray', crange);
+            % sim_stretched = real2rgb( im, 'gray', crange);
+            im_stretched = (double(im)-crange(1)) ./ (crange(2)-crange(1));
+            im_stretched(im_stretched<0) = 0;
+            im_stretched(im_stretched>1) = 1;
+            im_stretched = uint8(round(im_stretched*255));
         end
     end
 end
