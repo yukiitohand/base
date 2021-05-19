@@ -8,7 +8,11 @@ function [flg_cont] = doyouwantto(doverb,prompt1)
 %  flg_cont: boolean, true if you return yes, false otherwise.
 flg_ask = 1;
 while flg_ask
-    prompt1 = sprintf('%s.\n Do you want to %s?(y/n)',prompt1,doverb);
+    if isempty(prompt1)
+        prompt1 = sprintf('Do you want to %s?(y/n)', doverb);
+    else
+        prompt1 = sprintf('%s.\n Do you want to %s?(y/n)',prompt1,doverb);
+    end
     ow = input(prompt1,'s');
     if any(strcmpi(ow,{'y','n'}))
         flg_ask=0;
