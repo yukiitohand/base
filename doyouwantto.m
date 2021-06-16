@@ -11,7 +11,7 @@ while flg_ask
     if isempty(prompt1)
         prompt1 = sprintf('Do you want to %s?(y/n)', doverb);
     else
-        prompt1 = sprintf('%s.\n Do you want to %s?(y/n)',prompt1,doverb);
+        prompt1 = sprintf('%s.\nDo you want to %s?(y/n)',prompt1,doverb);
     end
     ow = input(prompt1,'s');
     if any(strcmpi(ow,{'y','n'}))
