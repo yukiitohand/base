@@ -48,7 +48,7 @@ function [ im_stretched,crange ] = im_lstretch_base( im,crange )
             im_stretched = (double(im)-crange(1)) ./ (crange(2)-crange(1));
             im_stretched(im_stretched<0) = 0;
             im_stretched(im_stretched>1) = 1;
-            im_stretched = uint8(round(im_stretched*255));
+            im_stretched = uint8(round(im_stretched*254)+1);
         end
     end
 end
