@@ -14,7 +14,7 @@ if status
         fprintf('"%s": permission is set to 777.\n',fpath);
     end
 else
-    error([fpath ':' msg]);
+    % error([fpath ':' msg]);
 end
 
 end

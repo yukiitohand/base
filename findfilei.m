@@ -13,13 +13,23 @@ end
 
 lsList = dir(pathstr);
 
-[res,resIdx] = searchby('name',fname,lsList,'COMP_FUNC','strcmpi');
+res = find(strcmpi(fname,{lsList.name}));
 
-fnamei = [{res.name}];
-
-if length(fnamei)==1
-    fnamei = fnamei{1};
+if length(res) == 1
+    fnamei = lsList(res).name;
+elseif isempty(res)
+    fnamei = '';
+else
+    fnamei = {lsList(res).name};
 end
+
+% [res,resIdx] = searchby('name',fname,lsList,'COMP_FUNC','strcmpi');
+% 
+% fnamei = [{res.name}];
+% 
+% if length(fnamei)==1
+%     fnamei = fnamei{1};
+% end
 
 end
 
