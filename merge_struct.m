@@ -15,7 +15,7 @@ end
 
 structList = varargin;
 
-if all(cellfun(@(x) isempty(x), structList))
+if all(cellfun('isempty', structList))
     struct_new = [];
 else
     allfieldnames = {};
@@ -45,19 +45,33 @@ else
                 for k=1:s
                     struct_new(k+cumj).(fld) = struct_cur(k).(fld);
                 end
-                % initialize the other using automatic estimation of the data type
-                % of each field.
-                setc = setdiff(1:L,cumj+1:cumj+s); 
-                idx_isempty = cellfun(@(x) isempty(x), [{struct_new(setc).(fld)}]);
-                repr = struct_new(cumj+1).(allfields_cur{j});
-                if isstr(repr)
-                    [struct_new(setc(idx_isempty)).(fld)] = deal('');
-                elseif isscalar(repr)
-                    [struct_new(setc(idx_isempty)).(fld)] = deal(NaN);
-                end
+%                 % initialize the other using automatic estimation of the data type
+%                 % of each field.
+%                 setc = setdiff(1:L,cumj+1:cumj+s); 
+%                 idx_isempty = cellfun(@(x) isempty(x), [{struct_new(setc).(fld)}]);
+%                 repr = struct_new(cumj+1).(allfields_cur{j});
+%                 if isstr(repr)
+%                     [struct_new(setc(idx_isempty)).(fld)] = deal('');
+%                 elseif isscalar(repr)
+%                     [struct_new(setc(idx_isempty)).(fld)] = deal(NaN);
+%                 end
 
             end
             cumj = cumj + s;
+        end
+    end
+
+    % initialize the other using automatic estimation of the data type
+    % of each field.
+    for i = 1:length(allfieldnames)
+        fld = allfieldnames{i};
+        idx_isempty = cellfun('isempty', [{struct_new.(fld)}]);
+        idx_not_isempty = find(~idx_isempty,1);
+        repr = struct_new(idx_not_isempty).(fld);
+        if ischar(repr)
+            [struct_new(idx_isempty).(fld)] = deal('');
+        elseif isscalar(repr)
+            [struct_new(idx_isempty).(fld)] = deal(NaN);
         end
     end
     
