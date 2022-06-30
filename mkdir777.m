@@ -13,7 +13,7 @@ function [status,status777] = mkdir777(dirpath,varargin)
 
 if isempty(varargin)
     verbose = false;
-if length(varargin)==1
+elseif length(varargin)==1
     verbose = varargin{1};
 else
     error('Too many inputs.');
