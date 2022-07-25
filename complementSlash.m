@@ -5,11 +5,7 @@ function [pnew] = complementSlash(p)
 if isempty(p)
     pnew = p;
 else
-    if ~strcmp(p(length(p)),'/')
-        pnew = [p '/'];
-    else
-        pnew = p;
-    end
+    if strcmp(p(end),'/'), pnew=p; else, pnew = [p '/']; end
 end
 
 end

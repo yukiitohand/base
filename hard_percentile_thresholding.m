@@ -5,8 +5,13 @@ function [ ar_thed,lowhigh ] = hard_percentile_thresholding( ar,tol )
 %    tol: percentile tolerance
 % Outputs
 %    ar_thed: rounded array
-if tol<0 || tol>0.5
-    error('tol must be 0<tol<0.5');
+
+if isscalar(tol)
+    tol = [tol tol];
+end
+
+if sum(tol) > 1.0
+    error('Tolis too large.');
 end
 
 ar2 = ar(:);
@@ -17,8 +22,8 @@ if isempty(I)
 else
     N = length(I);
 
-    low_idx = ceil(N*tol);
-    high_idx = floor(N*(1-tol));
+    low_idx = ceil(N*tol(1));
+    high_idx = floor(N*(1-tol(2)));
     if low_idx<1
         low_idx = 1;
     end
