@@ -1,4 +1,4 @@
-function [ vals,outliers ] = robust_v3(func,data,dim,varargin )
+function [ vals,outliers,varargout ] = robust_v3(func,data,dim,varargin )
 % [ val ] = robust_v3(func, data,dim,varargin )
 %   perform 'func' by removing n_exclu extreme points. Extreme points are
 %   selected based on median subtraction
@@ -128,15 +128,31 @@ switch lower(func)
     case {'stdl1','mean_abs_dev_from_mean'}
         m = nanmean(data,dim);
         vals = nanmean(abs(data-m),1);
+        if dim~=1
+            m = permute(m,dim_permute);
+        end
+        varargout{1} = m;
     case {'mean_abs_dev_from_med'}
         m = nanmedian(data,1);
         vals = nanmean(abs(data-m),1);
+        if dim~=1
+            m = permute(m,dim_permute);
+        end
+        varargout{1} = m;
     case 'med_abs_dev_from_mean'
         m = nanmean(data,1);
         vals = nanmedian(abs(data-m),1);
+        if dim~=1
+            m = permute(m,dim_permute);
+        end
+        varargout{1} = m;
     case 'med_abs_dev_from_med'
         m = nanmedian(data,1);
         vals = nanmedian(abs(data-m),1);
+        if dim~=1
+            m = permute(m,dim_permute);
+        end
+        varargout{1} = m;
     otherwise
         error('func is invalid');
 end
