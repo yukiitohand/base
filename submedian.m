@@ -22,7 +22,7 @@ elseif length(varargin)>1
     error('Too many input parameters');
 end
 
-Amedian = nanmedian(A,dim);
+Amedian = median(A,dim,'omitnan');
 Asub = bsxfun(@minus,A,Amedian);
 
 end
