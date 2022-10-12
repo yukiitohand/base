@@ -22,7 +22,7 @@ addParameter(p,'NOutliers',Noutliers_default,@(x) validateattributes(x,{'numeric
     {'nonnegative','integer'},mfilename,'NOutliers'));
 addParameter(p,'Outliers',outliers_default,@(x) validateattributes(x,{'logical','numeric'},mfilename,'Outliers'));
 addParameter(p,'Side',side_default,@(x) validatestring(x,{'large','small','both'},mfilename,'Side'));
-addParameter(p,'Data_Center',data_center_default,@(x) validateattributes(x,{'numeric'},{},mfilename,'Data_Center'));
+%addParameter(p,'Data_Center',data_center_default,@(x) validateattributes(x,{'numeric'},{},mfilename,'Data_Center'));
 
 
 parse(p,func,data,dim,varargin{:});
@@ -32,7 +32,7 @@ dim  = p.Results.dim;
 Noutliers = p.Results.NOutliers;
 outliers = p.Results.Outliers;
 side = p.Results.Side;
-data_center = p.Results.Data_Center;
+%data_center = p.Results.Data_Center;
 
 [L,M,N] = size(data);
 if ~isempty(outliers) 
