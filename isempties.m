@@ -7,7 +7,7 @@ function [isemp] = isempties(ar)
 %     isemp: numeric array, the result of isempty for each element.
 
 if iscell(ar)
-    isemp = cellfun(@(x) isempty(x), ar);
+    isemp = cellfun('isempty', ar);
 else
     error('Input is not iscell. Please implement for this case.');
 end
