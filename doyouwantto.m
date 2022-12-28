@@ -20,7 +20,7 @@ while flg_ask
         fprintf('Input %s is not valid.\n',ow);
     end
 end
-switch ow
+switch lower(ow)
     case 'y'
         flg_cont = true;
     case 'n'
